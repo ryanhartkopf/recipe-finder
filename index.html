@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" description="width=device-width, initial-scale=1" />
+  <title>Find Recipe by Ingredients</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+ </head>
+
+ <body>
+  <div class="react-form-container"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+
+const reactFormContainer = document.querySelector('.react-form-container')
+
+class ReactFormLabel extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return(
+      <label htmlFor={this.props.htmlFor}>{this.props.title}</label>
+    )
+  }
+}
+
+class ReactForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      ingredients: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange = (e) => {
+    let newState = {}
+
+    newState[e.target.name] = e.target.value
+
+    this.setState(newState)
+  }
+
+  handleSubmit = (e, message) => {
+    e.preventDefault()
+
+    let formData = {
+      formIngredients: this.state.ingredients
+    }
+
+    if (formData.formIngredients.length < 1) {
+      return false
+    }
+
+    $.ajax({
+      url: 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients',
+      dataType: 'json',
+      type: 'GET',
+      beforeSend: function(xhr){
+        xhr.setRequestHeader('X-Mashape-Key', 'hRuyRnn7WTmshdd5VvMmTe9kvuJIp1RSE4Zjsncf3CDfSUWEmM');
+        xhr.setRequestHeader('Accept', 'application/json');
+      },
+      data: {
+        fillIngredients: false,
+        ingredients: formData.formIngredients,
+        limitLicense: false,
+        number: 5,
+        ranking: 1
+      },
+      success: function(data) {
+        console.log(data);
+        alert(JSON.stringify(data[0]));
+      },
+      error: function(xhr, status, err) {
+        console.error(status, err.toString())
+        alert('There was some problem with retrieving your recipes.')
+      }
+    })
+
+    this.setState({
+      ingredients: ''
+    })
+  }
+
+  render() {
+    return(
+      <form className='react-form' onSubmit={this.handleSubmit}>
+      <h1>Enter your ingredients</h1>
+
+        <fieldset className='form-group'>
+          <ReactFormLabel htmlFor='formIngredients' title='Ingredients:' />
+          <textarea id='formIngredients' className='form-textarea' name='ingredients' required onChange={this.handleChange}></textarea>
+        </fieldset>
+
+        <div className='form-group'>
+          <input id='formButton' className='btn' type='submit' placeholder='Send message' />
+        </div>
+      </form>
+    )
+  }
+}
+
+ReactDOM.render(<ReactForm />, reactFormContainer)
+
+  </script>
+
+ </body>
+</html>
