@@ -2,6 +2,9 @@
 <html>
 <head>
   <title>Recipe App</title>
+  <!-- Import Mashape API key as const apiKey -->
+  <script type="text/javascript" src="secret.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
   <h1>Recipe App</h1>
@@ -9,8 +12,17 @@
   <div id="ingredientsDiv">
     <form id="ingredientsForm" action="#">
       Ingredients:
-      <input type="text" id="ingredientsInput" name="ingredients">
-      <input type="submit">
+      <input type="text" id="ingredientsInput">
+      <input type="submit" id="submit">
+      <br /><br />
+      <input type="radio" name="ingredientsRanking" value="1" checked>
+      Use as many entered ingredients as possible
+      <br />
+      <input type="radio" name="ingredientsRanking" value="2">
+      Use as few extra ingredients as possible
+      <br /><br />
+      Number of results:
+      <input type="number" id="numResults" value="5">
     </form>
   </div>
 
@@ -19,6 +31,12 @@
     <span id="searchResults"></span>
   </div>
 
-  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript">
+    // This fixes a bug that requires you to click the submit button
+    // twice to register the default checked radio button
+    document.getElementById('submit').click();
+    // Detect ingredients form submission
+    document.getElementById('ingredientsForm').onsubmit = function() {findRecipes()}
+  </script>
 </body>
 </html>
