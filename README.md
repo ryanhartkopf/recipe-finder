@@ -19,4 +19,15 @@ A simple vanilla HTML/JavaScript app for finding recipes based on what you alrea
 1. Save recipes
 1. Create a meal plan
 1. Create a shopping list
-1. Sort and filter for cost and nutritional value
+1. Sort and filter for cost, nutritional value, and/or prep time.
+1. Multiply ingredients for food prep.
+
+## goals
+
+* As a home cook, I would like to discover delicious new recipes from food that's already in the house.
+* As an environmentally conscious individual, I would like to prevent food waste.
+* As a dad, I would like to make nutritious food for my child.
+* As a cheapskate, I would like to rely on affordable staples.
+* As a lazy bum, I would like to not spent more than 30 minutes making a single meal.
+* Also as a lazy bum, I would like to get better at preparing food for multiple days.
+* As a friend, I would like to help others accomplish these goals so we can spend our time and money on more important things.
